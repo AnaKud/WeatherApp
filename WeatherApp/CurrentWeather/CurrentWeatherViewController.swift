@@ -4,7 +4,7 @@
 import UIKit
 import SnapKit
 
-class CurentWeatherViewController: UIViewController {
+class CurrentWeatherViewController: UIViewController {
 	private enum Constants {
 		static let topSearchOffset = 34
 		static let horisontalSearchOffset = 30
@@ -57,16 +57,26 @@ class CurentWeatherViewController: UIViewController {
 		print("newNoteButtonTapped")
 	}))
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		self.view.backgroundColor = UIColor(red: 0.29, green: 0.639, blue: 0.953, alpha: 1)
-		self.setupLayout()
-		self.setupWeatherData(WeatherViewModel())
+	init() {
+		super.init(nibName: nil, bundle: nil)
 	}
 
-	func setupWeatherData(_ vm: WeatherViewModel) {
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		self.view.insertSubview(UIImageView(image: UIImage(named: "background")), at: 0)
+		self.setupLayout()
+		self.setAccessibilityIdentifier()
+		
+		self.displayWeatherData(CurrentWeatherViewModel())
+	}
+
+	func displayWeatherData(_ vm: CurrentWeatherViewModel) {
 		self.weatherIconImageView.image = vm.weatherType.image
-		self.weatherWidget.setupWeatherData(vm)
+		self.weatherWidget.displayWeatherData(vm)
 	}
 
 	private func setupLayout() {
@@ -77,11 +87,13 @@ class CurentWeatherViewController: UIViewController {
 			make.height.equalTo(Constants.searchHeight)
 		}
 
+		self.weatherIconImageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+		self.weatherIconImageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
 		self.view.addSubview(self.weatherIconImageView)
 		self.weatherIconImageView.snp.makeConstraints { make in
 			make.top.equalTo(self.searchTextField.snp.bottom).offset(Constants.topImageViewOffset)
 			make.centerX.equalToSuperview()
-			make.height.width.equalTo(Constants.imageViewSize)
+			make.width.equalTo(self.weatherIconImageView.snp.height)
 		}
 
 		self.view.addSubview(self.weatherWidget)
@@ -93,9 +105,14 @@ class CurentWeatherViewController: UIViewController {
 		self.view.addSubview(self.newNoteButton)
 		self.newNoteButton.snp.makeConstraints { make in
 			make.top.equalTo(self.weatherWidget.snp.bottom).offset(Constants.buttonTopOffset)
-			make.leading.equalToSuperview().offset(Constants.buttonHorisontalOffset)
-			make.trailing.equalToSuperview().offset(-Constants.buttonHorisontalOffset)
-			make.bottom.equalTo(self.view.safeAreaLayoutGuide)
+			make.centerX.equalToSuperview()
+			make.leading.lessThanOrEqualToSuperview().offset(Constants.buttonHorisontalOffset)
+			make.trailing.lessThanOrEqualToSuperview().offset(-Constants.buttonHorisontalOffset).priority(.low)
+			make.bottom.lessThanOrEqualTo(self.view.safeAreaLayoutGuide)
 		}
+	}
+
+	func setAccessibilityIdentifier() {
+		self.weatherIconImageView.accessibilityIdentifier = "weatherIconImageView"
 	}
 }

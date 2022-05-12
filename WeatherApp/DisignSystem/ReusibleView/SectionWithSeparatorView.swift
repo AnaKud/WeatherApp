@@ -10,8 +10,8 @@ class SectionWithSeparatorView: UIView {
 		
 		var desctiption: String {
 			switch self {
-			case .wind: return "Ветер"//"Wind"
-			case .humidity: return "Влажность123456789" // "Hum"
+			case .wind: return "Wind"
+			case .humidity: return "Hum"
 			}
 		}
 
@@ -71,7 +71,7 @@ class SectionWithSeparatorView: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	func setupData(_ value: String) {
+	func displayData(_ value: String) {
 		self.dataLabel.text = value
 	}
 }

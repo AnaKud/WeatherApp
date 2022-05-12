@@ -53,10 +53,10 @@ class WeatherButton: UIView {
 // MARK: - Кофигурируем нижний слой
 private extension WeatherButton {
 	func configure() {
-		self.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
+		self.backgroundColor = Colors.whiteBackground.value
 		self.layer.cornerRadius = Constants.cornerRadius
 		self.layer.borderWidth = Constants.borderWidth
-		self.layer.borderColor = CGColor.init(red: 1, green: 1, blue: 1, alpha: 1)
+		self.layer.borderColor = Colors.white.cgColor
 		self.layer.masksToBounds = true
 	}
 }

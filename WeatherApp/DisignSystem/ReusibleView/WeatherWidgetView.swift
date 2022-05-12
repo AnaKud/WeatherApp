@@ -39,6 +39,7 @@ class WeatherWidgetView: UIView {
 		label.textAlignment = .center
 		label.textColor = .white
 		label.font = AppFonts.bold24.font
+		label.accessibilityIdentifier = "weatherDescribeLabel"
 		return label
 	}()
 
@@ -56,21 +57,21 @@ class WeatherWidgetView: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	func setupWeatherData(_ vm: WeatherViewModel) {
+	func displayWeatherData(_ vm: CurrentWeatherViewModel) {
 		self.dateLabel.text = vm.date
 		self.temperatureLabel.text = vm.temp
 		self.weatherDescribeLabel.text = vm.weatherType.description
-		self.windView.setupData(vm.wind)
-		self.humidityView.setupData(vm.humidity)
+		self.windView.displayData(vm.wind)
+		self.humidityView.displayData(vm.humidity)
 	}
 }
 
 private extension WeatherWidgetView {
 	func configureView() {
-		self.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.3)
+		self.backgroundColor = Colors.whiteBackground.value
 		self.layer.cornerRadius = Constants.corner
 		self.layer.borderWidth = 2
-		self.layer.borderColor = CGColor.init(red: 1, green: 1, blue: 1, alpha: 1)
+		self.layer.borderColor = Colors.white.cgColor
 		self.layer.masksToBounds = true
 	}
 
@@ -96,17 +97,17 @@ private extension WeatherWidgetView {
 			make.width.lessThanOrEqualToSuperview().priority(.high)
 			make.top.equalTo(self.weatherDescribeLabel.snp.bottom).offset(Constraints.separatorSectionTopOffset)
 			make.centerX.equalToSuperview().priority(.high)
-			make.trailing.equalToSuperview().priority(.low)
-			make.leading.equalToSuperview().priority(.low)
+			make.trailing.lessThanOrEqualToSuperview().priority(.low)
+			make.leading.lessThanOrEqualToSuperview().priority(.low)
 		}
-		self.humidityView.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
+		self.humidityView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		self.addSubview(self.humidityView)
 		self.humidityView.snp.makeConstraints { make in
 			make.width.lessThanOrEqualToSuperview().priority(.high)
 			make.top.equalTo(self.windView.snp.bottom)
 			make.centerX.equalToSuperview().priority(.high)
-			make.trailing.equalToSuperview()//.priority(.low)
-			make.leading.equalToSuperview()//.priority(.low)
+			make.trailing.lessThanOrEqualToSuperview().priority(.low)
+			make.leading.lessThanOrEqualToSuperview().priority(.low)
 			make.bottom.equalTo(self).offset(Constraints.humBootomOffset)
 		}
 	}

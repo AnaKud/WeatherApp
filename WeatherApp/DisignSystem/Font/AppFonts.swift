@@ -10,6 +10,7 @@ enum AppFonts {
 	case regular100
 	case bold
 	case bold24
+	case bold28
 
 	var font: UIFont? {
 		switch self {
@@ -25,6 +26,8 @@ enum AppFonts {
 			return UIFont(name: "Overpass-Regular", size: 100)
 		case .bold24:
 			return UIFont(name: "Overpass-Bold", size: 24)
+		case .bold28:
+			return UIFont(name: "Overpass-Bold", size: 28)
 		}
 	}
 }

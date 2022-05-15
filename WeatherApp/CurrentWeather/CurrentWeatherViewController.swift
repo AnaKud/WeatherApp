@@ -6,7 +6,6 @@ import SnapKit
 
 class CurrentWeatherViewController: UIViewController {
 	private enum Constants {
-		static let topSearchOffset = 34
 		static let horisontalSearchOffset = 30
 		static let searchHeight = 58
 		static let emptyViewWidth = 16
@@ -67,7 +66,12 @@ class CurrentWeatherViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.view.insertSubview(UIImageView(image: UIImage(named: "background")), at: 0)
+		let image = UIImageView(image: UIImage(named: "background"))
+		image.contentMode = .scaleAspectFill
+		self.view.addSubview(image)
+		image.snp.makeConstraints { make in
+			make.edges.equalToSuperview()
+		}
 		self.setupLayout()
 		self.setAccessibilityIdentifier()
 		
@@ -82,7 +86,7 @@ class CurrentWeatherViewController: UIViewController {
 	private func setupLayout() {
 		self.view.addSubview(self.searchTextField)
 		self.searchTextField.snp.makeConstraints { make in
-			make.top.equalTo(self.view.safeAreaLayoutGuide).offset(Constants.topSearchOffset)
+			make.top.equalTo(self.view.safeAreaLayoutGuide)
 			make.leading.trailing.equalToSuperview().inset(Constants.horisontalSearchOffset)
 			make.height.equalTo(Constants.searchHeight)
 		}

@@ -5,8 +5,8 @@ import UIKit
 
 final class TabBarAssembly {
 	static func build() -> UITabBarController {
-		let weatherController = CurrentWeatherAssembly.buid()
-		let diaryVC = WeatherDiaryAssembly.build()
+		let weatherController = UINavigationController(rootViewController: CurrentWeatherAssembly.buid())
+		let diaryVC = UINavigationController(rootViewController: WeatherDiaryAssembly.build())
 		let tabbar = UITabBarController()
 		tabbar.tabBar.backgroundColor = .clear
 		tabbar.setViewControllers([weatherController, diaryVC], animated: true)

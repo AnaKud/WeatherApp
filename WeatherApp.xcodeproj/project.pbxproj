@@ -19,6 +19,9 @@
 		4D4F822F2823FF1A0051C1E3 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D4F822E2823FF1A0051C1E3 /* AppFonts.swift */; };
 		4D4F8233282405DE0051C1E3 /* Overpass-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D4F822B2823FE650051C1E3 /* Overpass-Bold.ttf */; };
 		4D4F8234282405E00051C1E3 /* Overpass-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D4F822C2823FE6D0051C1E3 /* Overpass-Regular.ttf */; };
+		4D77F10D282F854800A1FF64 /* WeatherNoteViewCotroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D77F10C282F854800A1FF64 /* WeatherNoteViewCotroller.swift */; };
+		4D77F10F282F87FF00A1FF64 /* NoteTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D77F10E282F87FF00A1FF64 /* NoteTextFieldView.swift */; };
+		4D77F111282F9CFE00A1FF64 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D77F110282F9CFE00A1FF64 /* Assets.swift */; };
 		4D83491F282563F700BDEB84 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D83491E282563F700BDEB84 /* Colors.swift */; };
 		4D83492628263D7A00BDEB84 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4D83492528263D7A00BDEB84 /* SnapKit */; };
 		4D83492828263E0200BDEB84 /* WeatherWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D83492728263E0200BDEB84 /* WeatherWidgetView.swift */; };
@@ -64,6 +67,9 @@
 		4D4F822B2823FE650051C1E3 /* Overpass-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Overpass-Bold.ttf"; sourceTree = "<group>"; };
 		4D4F822C2823FE6D0051C1E3 /* Overpass-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Overpass-Regular.ttf"; sourceTree = "<group>"; };
 		4D4F822E2823FF1A0051C1E3 /* AppFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFonts.swift; sourceTree = "<group>"; };
+		4D77F10C282F854800A1FF64 /* WeatherNoteViewCotroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNoteViewCotroller.swift; sourceTree = "<group>"; };
+		4D77F10E282F87FF00A1FF64 /* NoteTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTextFieldView.swift; sourceTree = "<group>"; };
+		4D77F110282F9CFE00A1FF64 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		4D83491E282563F700BDEB84 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		4D83492728263E0200BDEB84 /* WeatherWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidgetView.swift; sourceTree = "<group>"; };
 		4D83492B282647A900BDEB84 /* SectionWithSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionWithSeparatorView.swift; sourceTree = "<group>"; };
@@ -120,6 +126,7 @@
 				4D83492728263E0200BDEB84 /* WeatherWidgetView.swift */,
 				4D83492B282647A900BDEB84 /* SectionWithSeparatorView.swift */,
 				4D482191282A6F26007E04E7 /* WeatherButton.swift */,
+				4D77F10E282F87FF00A1FF64 /* NoteTextFieldView.swift */,
 			);
 			path = ReusibleView;
 			sourceTree = "<group>";
@@ -147,6 +154,7 @@
 		4D4F82162823FC0C0051C1E3 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				4D77F10B282F852400A1FF64 /* WeatherNote */,
 				4DA1ED93282C11CC00AADF61 /* Converters */,
 				4DA1ED92282C119200AADF61 /* CurrentWeather */,
 				4D83492328263C9400BDEB84 /* DisignSystem */,
@@ -166,6 +174,14 @@
 				4D4F822E2823FF1A0051C1E3 /* AppFonts.swift */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		4D77F10B282F852400A1FF64 /* WeatherNote */ = {
+			isa = PBXGroup;
+			children = (
+				4D77F10C282F854800A1FF64 /* WeatherNoteViewCotroller.swift */,
+			);
+			path = WeatherNote;
 			sourceTree = "<group>";
 		};
 		4D83492328263C9400BDEB84 /* DisignSystem */ = {
@@ -200,6 +216,7 @@
 				4D4F82172823FC0C0051C1E3 /* AppDelegate.swift */,
 				4D4F82192823FC0C0051C1E3 /* SceneDelegate.swift */,
 				4D4F82202823FC100051C1E3 /* Assets.xcassets */,
+				4D77F110282F9CFE00A1FF64 /* Assets.swift */,
 				4D4F82222823FC100051C1E3 /* LaunchScreen.storyboard */,
 			);
 			path = SupportingFiles;
@@ -365,11 +382,14 @@
 				4D4F822F2823FF1A0051C1E3 /* AppFonts.swift in Sources */,
 				4D83491F282563F700BDEB84 /* Colors.swift in Sources */,
 				4D295EAF282D41E400BF54CB /* WeatherDiaryViewController.swift in Sources */,
+				4D77F10D282F854800A1FF64 /* WeatherNoteViewCotroller.swift in Sources */,
 				4DE3134728267911004855F4 /* CurrentWeatherAssembly.swift in Sources */,
 				4D4F821C2823FC0C0051C1E3 /* CurrentWeatherViewController.swift in Sources */,
 				4D482192282A6F26007E04E7 /* WeatherButton.swift in Sources */,
 				4DA1ED90282C00E900AADF61 /* DateConverter.swift in Sources */,
 				4DA1ED97282C145C00AADF61 /* TabBarAssembly.swift in Sources */,
+				4D77F111282F9CFE00A1FF64 /* Assets.swift in Sources */,
+				4D77F10F282F87FF00A1FF64 /* NoteTextFieldView.swift in Sources */,
 				4D4F82182823FC0C0051C1E3 /* AppDelegate.swift in Sources */,
 				4D83492C282647A900BDEB84 /* SectionWithSeparatorView.swift in Sources */,
 				4DE31345282669A6004855F4 /* CurrentWeatherViewModel.swift in Sources */,

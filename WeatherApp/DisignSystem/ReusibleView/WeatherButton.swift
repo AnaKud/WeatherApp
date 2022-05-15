@@ -93,6 +93,7 @@ private extension WeatherButton {
 			make.leading.equalToSuperview().offset(Constraint.offset)
 			make.trailing.equalToSuperview().offset(-Constraint.offset)
 		}
+		self.label.textAlignment = .center
 	}
 }
 

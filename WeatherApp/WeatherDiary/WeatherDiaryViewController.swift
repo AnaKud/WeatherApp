@@ -16,13 +16,32 @@ final class WeatherDiaryViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.view.insertSubview(UIImageView(image: UIImage(named: "background")), at: 0)
-		self.setupTable()
-		self.configureTable()
+		self.setupUI()
 	}
 }
 
 private extension WeatherDiaryViewController {
+	func setupUI() {
+		let image = UIImageView(image: UIImage(named: "background"))
+		image.contentMode = .scaleAspectFill
+		self.view.addSubview(image)
+		image.snp.makeConstraints { make in
+			make.edges.equalToSuperview()
+		}
+
+		self.setupNav()
+		self.setupTable()
+		self.configureTable()
+	}
+	
+	func setupNav() {
+		let image = UIImage(named: "edit")
+
+		let nav = UIBarButtonItem(image: image, style: .done, target: self, action: #selector(self.onNewNoteTapped))
+		nav.tintColor = .white
+		self.navigationItem.setRightBarButton(nav, animated: false)
+	}
+	
 	func setupTable() {
 		self.view.addSubview(self.tableView)
 		self.tableView.backgroundColor = .clear
@@ -38,6 +57,13 @@ private extension WeatherDiaryViewController {
 		self.tableView.separatorStyle = .none
 		self.tableView.register(WeatherNoteCell.self, forCellReuseIdentifier: WeatherNoteCell.id)
 	}
+
+	@objc
+	func onNewNoteTapped() {
+		let nextVC = WeatherNoteAssembly.build()
+		self.navigationController?.pushViewController(nextVC, animated: true)
+		self.navigationController?.navigationBar.tintColor = .white
+	}
 }
 
 extension WeatherDiaryViewController: UITableViewDelegate, UITableViewDataSource {
@@ -48,6 +74,11 @@ extension WeatherDiaryViewController: UITableViewDelegate, UITableViewDataSource
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		guard let cell =  tableView.dequeueReusableCell(withIdentifier: WeatherNoteCell.id, for: indexPath) as? WeatherNoteCell else { return UITableViewCell() }
 		return cell
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let vc = WeatherNoteViewCotroller()
+		self.present(vc, animated: true)
 	}
 }
 

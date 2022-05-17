@@ -26,7 +26,7 @@ class CurrentWeatherViewController: UIViewController {
 		static let weatherButtonText = "New weather note"
 	}
 
-	private let searchTextField: UITextField = {
+	private lazy var searchTextField: UITextField = {
 		let textField = UITextField()
 		textField.backgroundColor = .white
 		textField.layer.cornerRadius = Constants.cornerRadius
@@ -43,18 +43,17 @@ class CurrentWeatherViewController: UIViewController {
 		textField.leftView = emptyView
 		textField.rightViewMode = .always
 		textField.rightView = emptyView
+		textField.delegate = self
 		return textField
 	}()
 
 	private let weatherIconImageView = UIImageView()
 	private let weatherWidget = WeatherWidgetView()
 
-	private let newNoteButton = WeatherButton(settings: .init(imageName: Constants.weatherButtonImage,
+	private lazy var newNoteButton = WeatherButton(settings: .init(imageName: Constants.weatherButtonImage,
 															  labelText: Texts.weatherButtonText,
 															  font: .regular16,
-															  tapHandler: {
-		print("newNoteButtonTapped")
-	}))
+															  tapHandler: { self.saveButtonTapped() }))
 
 	init() {
 		super.init(nibName: nil, bundle: nil)
@@ -82,8 +81,24 @@ class CurrentWeatherViewController: UIViewController {
 		self.weatherIconImageView.image = vm.weatherType.image
 		self.weatherWidget.displayWeatherData(vm)
 	}
+}
 
-	private func setupLayout() {
+// MARK: - Navigation
+private extension CurrentWeatherViewController {
+	func saveButtonTapped() {
+		self.present(WeatherNoteAssembly.build(), animated: true)
+	}
+}
+
+// MARK: - NetworkRequest
+private extension CurrentWeatherViewController {
+	func requestCurrentWeather(for city: String?) {
+		print(city)
+	}
+}
+
+private extension CurrentWeatherViewController {
+	func setupLayout() {
 		self.view.addSubview(self.searchTextField)
 		self.searchTextField.snp.makeConstraints { make in
 			make.top.equalTo(self.view.safeAreaLayoutGuide)
@@ -118,5 +133,12 @@ class CurrentWeatherViewController: UIViewController {
 
 	func setAccessibilityIdentifier() {
 		self.weatherIconImageView.accessibilityIdentifier = "weatherIconImageView"
+	}
+}
+
+extension CurrentWeatherViewController: UITextFieldDelegate {
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		self.requestCurrentWeather(for: textField.text)
+		return true
 	}
 }

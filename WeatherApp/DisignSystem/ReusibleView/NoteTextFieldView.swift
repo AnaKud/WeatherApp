@@ -26,7 +26,25 @@ final class NoteTextFieldView: UIView {
 		static let tfHeight = 40
 		static let borderWidth: CGFloat = 1
 	}
-	
+
+	public var text: String?  {
+		get {
+			return self.textField.text
+		}
+		set {
+			self.textField.text = newValue
+		}
+	}
+
+	public var delegate: UITextFieldDelegate? {
+		get {
+			return nil
+		}
+		set {
+			self.textField.delegate = newValue
+		}
+	}
+
 	private let label: UILabel = {
 		let label = UILabel()
 		label.font = AppFonts.bold28.font

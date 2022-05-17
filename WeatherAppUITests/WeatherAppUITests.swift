@@ -8,8 +8,6 @@ class WeatherAppUITests: XCTestCase {
 		let app = XCUIApplication()
 		app.launch()
 		self.checkLabelExist(withId: "weatherDescribeLabel")
-		self.checkLabelText(labelId: "weatherDescribeLabel", text: "rain")
-		self.checkImageViewExist(withId: "weatherIconImageView")
 	}
 }
 

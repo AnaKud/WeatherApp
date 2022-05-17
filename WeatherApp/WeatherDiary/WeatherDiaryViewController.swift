@@ -20,6 +20,20 @@ final class WeatherDiaryViewController: UIViewController {
 	}
 }
 
+// MARK: - Navigation
+private extension WeatherDiaryViewController {
+	func routeToNewNote() {
+		let nextVC = WeatherNoteAssembly.build()
+		self.navigationController?.pushViewController(nextVC, animated: true)
+		self.navigationController?.navigationBar.tintColor = .white
+	}
+
+	func routeToEditNote(forIndexPath: Int) {
+		let vc = WeatherNoteViewController()
+		self.present(vc, animated: true)
+	}
+}
+
 private extension WeatherDiaryViewController {
 	func setupUI() {
 		let image = UIImageView(image: UIImage(named: "background"))
@@ -55,30 +69,28 @@ private extension WeatherDiaryViewController {
 		self.tableView.delegate = self
 		self.tableView.dataSource = self
 		self.tableView.separatorStyle = .none
-		self.tableView.register(WeatherNoteCell.self, forCellReuseIdentifier: WeatherNoteCell.id)
+		self.tableView.register(WeatherDiaryNoteCell.self, forCellReuseIdentifier: WeatherDiaryNoteCell.id)
 	}
 
 	@objc
 	func onNewNoteTapped() {
-		let nextVC = WeatherNoteAssembly.build()
-		self.navigationController?.pushViewController(nextVC, animated: true)
-		self.navigationController?.navigationBar.tintColor = .white
+		self.routeToNewNote()
 	}
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension WeatherDiaryViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		20
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let cell =  tableView.dequeueReusableCell(withIdentifier: WeatherNoteCell.id, for: indexPath) as? WeatherNoteCell else { return UITableViewCell() }
+		guard let cell =  tableView.dequeueReusableCell(withIdentifier: WeatherDiaryNoteCell.id, for: indexPath) as? WeatherDiaryNoteCell else { return UITableViewCell() }
+		cell.displayData(WeatherDiaryViewModel())
 		return cell
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let vc = WeatherNoteViewCotroller()
-		self.present(vc, animated: true)
+		self.routeToEditNote(forIndexPath: indexPath.row)
 	}
 }
-

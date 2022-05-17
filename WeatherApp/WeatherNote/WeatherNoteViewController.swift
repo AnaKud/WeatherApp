@@ -1,15 +1,9 @@
-// WeatherNoteViewCotroller.swift
+// WeatherNoteViewController.swift
 // Created by Anastasiya Kudasheva
 
 import UIKit
 
-enum WeatherNoteAssembly {
-	static func build() -> WeatherNoteViewCotroller {
-		return WeatherNoteViewCotroller()
-	}
-}
-
-final class WeatherNoteViewCotroller: UIViewController {
+final class WeatherNoteViewController: UIViewController {
 	private enum Texts {
 		static let cityHeader = "City"
 		static let dateHeader = "Date"
@@ -18,7 +12,6 @@ final class WeatherNoteViewCotroller: UIViewController {
 		static let additionalInfoHeader = "Additional info"
 	}
 
-	
 	private enum Constraints {
 		static let standartVerticalOffset = 24
 		static let standartHorizontalInset = 30
@@ -34,7 +27,7 @@ final class WeatherNoteViewCotroller: UIViewController {
 		let datePicker = UIDatePicker(frame: .zero)
 		datePicker.datePickerMode = .date
 		datePicker.preferredDatePickerStyle = .compact
-		datePicker.timeZone = TimeZone(abbreviation: "en")
+		datePicker.locale = Locale(identifier: "en")
 		return datePicker
 	}()
 
@@ -84,7 +77,26 @@ final class WeatherNoteViewCotroller: UIViewController {
 	}
 }
 
-private extension WeatherNoteViewCotroller {
+extension WeatherNoteViewController {
+	func displayData(_ vm: WeatherNoteViewModel) {
+		let weather =  WeatherType.allCases.firstIndex(of: vm.weatherType ?? .sunny) ?? 0
+		self.weatherPickerView.selectRow(weather, inComponent: 1, animated: false)
+		self.datePicker.date = vm.date ?? Date.now
+		self.cityNoteTFView.text = vm.town
+		self.tempNoteTFView.text = String(describing: vm.temperature)
+		self.additionalInfoNoteTFView.text = vm.additionalInfo
+	}
+
+	func saveData(_ vm: WeatherNoteViewModel) {
+		let vmData = WeatherNoteViewModel(town: self.cityNoteTFView.text,
+										  date: self.datePicker.date,
+										  weatherType: WeatherType.allCases[self.weatherPickerView.selectedRow(inComponent: 1)],
+										  temperature: Int(self.tempNoteTFView.text ?? "0"),
+										  additionalInfo: self.additionalInfoNoteTFView.text)
+	}
+}
+
+private extension WeatherNoteViewController {
 	func setupUI() {
 		self.view.addSubview(self.scrollView)
 		self.scrollView.snp.makeConstraints { make in
@@ -149,7 +161,7 @@ private extension WeatherNoteViewCotroller {
 	}
 }
 
-private extension WeatherNoteViewCotroller {
+private extension WeatherNoteViewController {
 	func createLabel(text: String) -> UILabel {
 		let label = UILabel()
 		label.font = AppFonts.bold28.font
@@ -158,13 +170,12 @@ private extension WeatherNoteViewCotroller {
 		label.text = text
 		return label
 	}
-	
 }
 
-extension WeatherNoteViewCotroller: UIPickerViewDelegate {
+extension WeatherNoteViewController: UIPickerViewDelegate {
 	func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
 		return NSAttributedString(
-			string: Weather.allCases[row].rawValue,
+			string: WeatherType.allCases[row].description,
 			attributes: [
 				NSAttributedString.Key.font: AppFonts.regular18.font as Any,
 				NSAttributedString.Key.foregroundColor: Colors.white.value
@@ -173,12 +184,12 @@ extension WeatherNoteViewCotroller: UIPickerViewDelegate {
 	}
 }
 
-extension WeatherNoteViewCotroller: UIPickerViewDataSource {
+extension WeatherNoteViewController: UIPickerViewDataSource {
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
 		return 1
 	}
 	
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-		Weather.allCases.count
+		WeatherType.allCases.count
 	}
 }

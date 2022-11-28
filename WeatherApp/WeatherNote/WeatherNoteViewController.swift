@@ -57,7 +57,7 @@ final class WeatherNoteViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		let image = UIImageView(image: UIImage(named: "background"))
+		let image = UIImageView(image: UIImage(named: "Background"))
 		image.contentMode = .scaleAspectFill
 		self.view.addSubview(image)
 		image.snp.makeConstraints { make in

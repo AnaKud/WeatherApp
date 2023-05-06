@@ -32,7 +32,7 @@ enum WeatherAsset: String, CaseIterable {
 		case .foggy: self = .foggy
 		case .hail: self = .hail
 		case .hot: self = .hot
-		case .isolatedThunderstroms: self = .isolatedThunderstroms
+		case .isolatedThunderstorm: self = .isolatedThunderstroms
 		case .lightwind: self = .lightwind
 		case .mostlyCloudy: self = .mostlyCloudy
 		case .partlyCloudy: self = .partlyCloudy
@@ -41,7 +41,7 @@ enum WeatherAsset: String, CaseIterable {
 		case .snowFlurries: self = .snowFlurries
 		case .snow: self = .snow
 		case .sunny: self = .sunny
-		case .thunderstroms: self = .thunderstroms
+		case .thunderstorm: self = .thunderstroms
 		case .tornado: self = .tornado
 		}
 	}

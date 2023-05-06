@@ -64,6 +64,7 @@ class SectionWithSeparatorView: UIView {
 		self.configureView(with: type)
 		self.setupLayout()
 		self.backgroundColor = .clear
+		self.setAccessibilityId(type)
 	}
 
 	@available(*, unavailable)
@@ -105,5 +106,17 @@ private extension SectionWithSeparatorView {
 			make.leading.equalTo(self.separatorLabel.snp.trailing)
 			make.trailing.equalToSuperview()
 		}
+	}
+
+	func setAccessibilityId(_ type: Atmosphere) {
+		let prefix: String
+		switch type {
+		case .humidity: prefix = "humidity"
+		case .wind: prefix = "wind"
+		}
+		self.imageView.accessibilityIdentifier = prefix + "_imageView"
+		self.nameLabel.accessibilityIdentifier = prefix + "_nameLabel"
+		self.separatorLabel.accessibilityIdentifier = prefix + "_separatorLabel"
+		self.dataLabel.accessibilityIdentifier = prefix + "_dataLabel"
 	}
 }

@@ -10,6 +10,7 @@ class WeatherWidgetView: UIView {
 		static let separatorSectionHorisontalOffset = 77
 		static let humBootomOffset = -25
 	}
+
 	private enum Constants {
 		static let corner: CGFloat = 16
 	}
@@ -21,8 +22,10 @@ class WeatherWidgetView: UIView {
 		label.textAlignment = .center
 		label.textColor = .white
 		label.font = AppFonts.regular18.font
+		label.accessibilityIdentifier = "dateLabel"
 		return label
 	}()
+
 	private let temperatureLabel: UILabel = {
 		let label = UILabel()
 		label.numberOfLines = 1
@@ -30,8 +33,10 @@ class WeatherWidgetView: UIView {
 		label.textAlignment = .center
 		label.textColor = .white
 		label.font = AppFonts.regular100.font
+		label.accessibilityIdentifier = "temperatureLabel"
 		return label
 	}()
+
 	private let weatherDescribeLabel : UILabel = {
 		let label = UILabel()
 		label.numberOfLines = 1

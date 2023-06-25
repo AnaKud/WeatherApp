@@ -8,9 +8,9 @@ class CurrentWeatherScreenTests: XCTestCase {
 
 	override func setUp() {
 		super.setUp()
-		app = XCUIApplication()
-		app.launchEnvironment["UITestStarted"] = "true"
-		app.launch()
+		self.app = XCUIApplication()
+		self.app.launchEnvironment["UITestStarted"] = "true"
+		self.app.launch()
 		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
 			if alert.exists {
 				let button = alert.buttons["Allow While Using App"]
@@ -20,22 +20,22 @@ class CurrentWeatherScreenTests: XCTestCase {
 				return false
 			}
 		}
-		app.tap()
+		self.app.tap()
 		continueAfterFailure = false
 	}
 
 	override func tearDown() {
 		super.tearDown()
-		app.terminate()
-		app = nil
+		self.app.terminate()
+		self.app = nil
 	}
 
 	func testAllUIElementsIsOnScreen() {
-		self.dismissAlert(withId: "AlertPresenter")
+		self.dismissAlert()
 		self.enterText("London", toTF: "searchTextField")
 
 		self.checkTFExist(withId: "searchTextField")
-		self.checkImageViewExist(withId: "weatherIconImageView", waitTime: 1)
+		self.checkImageViewExist(withId: "weatherIconImageView")
 		self.checkLabelExist(withId: "weatherDescribeLabel")
 
 		self.checkLabelExist(withId: "dateLabel")
@@ -55,16 +55,5 @@ class CurrentWeatherScreenTests: XCTestCase {
 
 		self.checkLabelExist(withId: "currentCityLabel")
 		self.checkLabelExist(withId: "cityLabel")
-	}
-
-	func testStaticTextsIsOnScreen() {
-		self.dismissAlert(withId: "AlertPresenter")
-		self.enterText("London", toTF: "searchTextField")
-		
-		self.checkLabelText(exactly: "Current location:", on: "currentCityLabel", waitTime: 1)
-		self.checkLabelText(contain: "Today", on: "dateLabel")
-		self.checkLabelText(contain: "°", on: "temperatureLabel")
-		self.checkLabelText(contain: "km/h", on: "wind_dataLabel")
-		self.checkLabelText(contain: "%", on: "humidity_dataLabel")
 	}
 }

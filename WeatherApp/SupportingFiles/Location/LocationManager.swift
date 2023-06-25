@@ -15,7 +15,6 @@ protocol ILocationManager: AnyObject {
 class LocationManager: NSObject {
 	var handleDelegateResult: ((Result<CLLocation, LocationError>) -> Void)?
 
-
 	private let locationManager = CLLocationManager()
 	private let geocoder = CLGeocoder()
 
@@ -61,6 +60,7 @@ extension LocationManager: ILocationManager {
 			completion(.failure(.detectionFailed))
 			return
 		}
+
 		self.geocoder.reverseGeocodeLocation(location) { placemarks, error in
 			guard error == nil,
 				  let location = placemarks?[0].location else {

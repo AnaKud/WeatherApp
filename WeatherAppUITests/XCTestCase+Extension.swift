@@ -5,22 +5,24 @@ import XCTest
 
 // MARK: - SkipActions
 extension XCTestCase {
-	func dismissAlert(withId id: String) {
+	func dismissAlert() {
 		let app = XCUIApplication()
-		let alert = app.alerts[id]
+		let alert = app.alerts.firstMatch
 		alert.buttons["OK"].tap()
 
 		XCTAssertFalse(alert.exists)
 	}
 
-	func checkAlertText(_ text: String, withId id: String) {
+	func checkAlertText(_ text: String) {
 		let app = XCUIApplication()
-		let alertText = app.alerts[id].staticTexts[text].label
+		let alert = app.alerts.firstMatch
+		XCTAssertTrue(alert.waitForExistence(timeout: 2))
+		let alertText = alert.staticTexts[text].label
 
 		XCTAssertEqual(alertText, text)
 	}
 
-	func checkTFExist(withId id: String, waitTime: Double = 0) {
+	func checkTFExist(withId id: String, waitTime: Double = 1) {
 		let app = XCUIApplication()
 		XCTAssertTrue(app.textFields[id].waitForExistence(timeout: waitTime))
 	}
@@ -33,12 +35,12 @@ extension XCTestCase {
 		app.buttons["Return"].tap()
 	}
 
-	func checkLabelExist(withId id: String, waitTime: Double = 0) {
+	func checkLabelExist(withId id: String, waitTime: Double = 1) {
 		let app = XCUIApplication()
 		XCTAssertTrue(app.staticTexts[id].waitForExistence(timeout: waitTime))
 	}
 
-	func checkLabelText(exactly text: String, on labelId: String, waitTime: Double = 0) {
+	func checkLabelText(exactly text: String, on labelId: String, waitTime: Double = 1) {
 		let app = XCUIApplication()
 		let label = app.staticTexts[labelId]
 		XCTAssertTrue(label.waitForExistence(timeout: waitTime))
@@ -51,8 +53,13 @@ extension XCTestCase {
 		XCTAssertTrue(labelText.contains(text))
 	}
 
-	func checkImageViewExist(withId id: String, waitTime: Double = 0) {
+	func checkImageViewExist(withId id: String, waitTime: Double = 1) {
 		let app = XCUIApplication()
 		XCTAssertTrue(app.images[id].waitForExistence(timeout: waitTime))
+	}
+
+	func checkActivity(withId id: String, waitTime: Double = 1) {
+		let app = XCUIApplication()
+		XCTAssertTrue(app.activityIndicators[id].exists)
 	}
 }

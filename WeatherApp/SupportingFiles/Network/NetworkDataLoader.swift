@@ -8,7 +8,7 @@ protocol NetworkDataLoading: AnyObject {
 			  _ completion: @escaping ((Result<WeatherData, NetworkError>) -> Void))
 }
 
-class NetworkDataLoader<T: Codable> {
+class NetworkDataLoader {
 	private let networkDataFetcher = NetworkDataFetcher()
 	private let dataParser = DataParser<WeatherData>()
 }

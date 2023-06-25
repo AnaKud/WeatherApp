@@ -1,119 +1,121 @@
 // WeatherWidgetView.swift
 // Created by Anastasiya Kudasheva
 
-import UIKit
+import SwiftUI
 
-class WeatherWidgetView: UIView {
+class WeatherWidgetViewModel: ObservableObject {
+	let date: String
+	let temp: String
+	let weatherDescription: String
+	let wind: String
+	let humidity: String
+
+	init(date: String,
+		 temp: String,
+		 weatherDescription: String,
+		 wind: String,
+		 humidity: String) {
+		self.date = date
+		self.temp = temp
+		self.weatherDescription = weatherDescription
+		self.wind = wind
+		self.humidity = humidity
+	}
+}
+
+extension WeatherWidgetViewModel: Equatable {
+	static func == (lhs: WeatherWidgetViewModel, rhs: WeatherWidgetViewModel) -> Bool {
+		return lhs.date == rhs.date &&
+		lhs.temp == rhs.temp &&
+		lhs.weatherDescription == rhs.weatherDescription &&
+		lhs.wind == rhs.wind &&
+		lhs.humidity == rhs.humidity 
+	}
+}
+
+struct WeatherWidgetView: View {
 	private enum Constraints {
-		static let dateLabelTopOffset = 17
-		static let separatorSectionTopOffset = 37
-		static let separatorSectionHorisontalOffset = 77
-		static let humBootomOffset = -25
+		static let separatorSectionTopOffset: CGFloat = 24
+		static let verticalOffset: CGFloat = 8
 	}
 
 	private enum Constants {
 		static let corner: CGFloat = 16
+		static let lineWidth: CGFloat = 2
 	}
 
-	private let dateLabel: UILabel = {
-		let label = UILabel()
-		label.numberOfLines = 1
-		label.adjustsFontSizeToFitWidth = true
-		label.textAlignment = .center
-		label.textColor = .white
-		label.font = AppFonts.regular18.font
-		label.accessibilityIdentifier = "dateLabel"
-		return label
-	}()
+	@ObservedObject private var viewModel: WeatherWidgetViewModel
 
-	private let temperatureLabel: UILabel = {
-		let label = UILabel()
-		label.numberOfLines = 1
-		label.adjustsFontSizeToFitWidth = true
-		label.textAlignment = .center
-		label.textColor = .white
-		label.font = AppFonts.regular100.font
-		label.accessibilityIdentifier = "temperatureLabel"
-		return label
-	}()
-
-	private let weatherDescribeLabel : UILabel = {
-		let label = UILabel()
-		label.numberOfLines = 1
-		label.adjustsFontSizeToFitWidth = true
-		label.textAlignment = .center
-		label.textColor = .white
-		label.font = AppFonts.bold24.font
-		label.accessibilityIdentifier = "weatherDescribeLabel"
-		return label
-	}()
-
-	private let windView = SectionWithSeparatorView(type: .wind)
-	private let humidityView = SectionWithSeparatorView(type: .humidity)
-
-	init() {
-		super.init(frame: .zero)
-		self.configureView()
-		self.setupLayout()
+	init(viewModel: WeatherWidgetViewModel) {
+		self.viewModel = viewModel
 	}
 
-	@available(*, unavailable)
-	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
+	var body: some View {
+		VStack {
+			Text(self.viewModel.date)
+				.foregroundColor(Colors.white.color)
+				.font(AppFonts.regular18.font)
+				.lineLimit(1)
+				.scaledToFit()
+				.minimumScaleFactor(0.3)
+				.frame(alignment: .center)
+				.accessibilityIdentifier(UIElement.dateLabel.rawValue)
+				.padding(.top, Constraints.verticalOffset)
 
-	func displayWeatherData(_ vm: CurrentWeatherViewModel) {
-		self.dateLabel.text = vm.date
-		self.temperatureLabel.text = vm.temp
-		self.weatherDescribeLabel.text = vm.weatherType.description
-		self.windView.displayData(vm.wind)
-		self.humidityView.displayData(vm.humidity)
+			Text(self.viewModel.temp)
+				.foregroundColor(Colors.white.color)
+				.font(AppFonts.regular100.font)
+				.lineLimit(1)
+				.scaledToFit()
+				.minimumScaleFactor(0.3)
+				.frame(alignment: .center)
+				.accessibilityIdentifier(UIElement.temperatureLabel.rawValue)
+
+			Text(self.viewModel.weatherDescription)
+				.foregroundColor(Colors.white.color)
+				.font(AppFonts.bold24.font)
+				.lineLimit(1)
+				.scaledToFit()
+				.minimumScaleFactor(0.3)
+				.frame(alignment: .center)
+				.accessibilityIdentifier(UIElement.weatherDescribeLabel.rawValue)
+
+			SectionWithSeparatorView(type: .wind,
+										data: self.viewModel.wind)
+				.padding(.top, Constraints.separatorSectionTopOffset)
+
+			SectionWithSeparatorView(type: .humidity,
+										data: self.viewModel.humidity)
+				.padding(.bottom, Constraints.verticalOffset)
+		}
+		.frame(maxWidth: .infinity)
+		.background(Colors.whiteBackground.color)
+		.cornerRadius(Constants.corner)
+		.overlay(
+			RoundedRectangle(cornerRadius: Constants.corner)
+				.stroke(Colors.white.color,
+						lineWidth: Constants.lineWidth)
+			)
 	}
 }
 
 private extension WeatherWidgetView {
-	func configureView() {
-		self.backgroundColor = Colors.whiteBackground.value
-		self.layer.cornerRadius = Constants.corner
-		self.layer.borderWidth = 2
-		self.layer.borderColor = Colors.white.cgColor
-		self.layer.masksToBounds = true
+	enum UIElement: String {
+		case dateLabel = "dateLabel"
+		case temperatureLabel = "temperatureLabel"
+		case weatherDescribeLabel = "weatherDescribeLabel"
 	}
+}
 
-	func setupLayout() {
-		self.addSubview(self.dateLabel)
-		self.dateLabel.snp.makeConstraints { make in
-			make.top.equalTo(self).offset(Constraints.dateLabelTopOffset)
-			make.trailing.leading.equalToSuperview()
-		}
-		self.addSubview(self.temperatureLabel)
-		self.temperatureLabel.snp.makeConstraints { make in
-			make.top.equalTo(self.dateLabel.snp.bottom)
-			make.trailing.leading.equalToSuperview()
-		}
-		self.addSubview(self.weatherDescribeLabel)
-		self.weatherDescribeLabel.snp.makeConstraints { make in
-			make.top.equalTo(self.temperatureLabel.snp.bottom)
-			make.trailing.leading.equalToSuperview()
-		}
-		self.windView.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
-		self.addSubview(self.windView)
-		self.windView.snp.makeConstraints { make in
-			make.width.lessThanOrEqualToSuperview().priority(.high)
-			make.top.equalTo(self.weatherDescribeLabel.snp.bottom).offset(Constraints.separatorSectionTopOffset)
-			make.centerX.equalToSuperview().priority(.high)
-			make.trailing.lessThanOrEqualToSuperview().priority(.low)
-			make.leading.lessThanOrEqualToSuperview().priority(.low)
-		}
-		self.humidityView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		self.addSubview(self.humidityView)
-		self.humidityView.snp.makeConstraints { make in
-			make.width.lessThanOrEqualToSuperview().priority(.high)
-			make.top.equalTo(self.windView.snp.bottom)
-			make.centerX.equalToSuperview().priority(.high)
-			make.trailing.lessThanOrEqualToSuperview().priority(.low)
-			make.leading.lessThanOrEqualToSuperview().priority(.low)
-			make.bottom.equalTo(self).offset(Constraints.humBootomOffset)
+struct WeatherWidgetView_Previews: PreviewProvider {
+	static var previews: some View {
+		VStack(alignment: .center, spacing: 0) {
+			WeatherWidgetView(viewModel: .init(date: "Today, 7 May",
+											   temp: "10°",
+											   weatherDescription: "cloudy",
+											   wind: "3 km/h",
+											   humidity: "40 %"))
+			.scaledToFit()
 		}
 	}
 }

@@ -1,9 +1,9 @@
 // WeatherType.swift
 // Created by Anastasiya Kudasheva
 
-import UIKit
+import SwiftUI
 
-enum WeatherType: CaseIterable {
+enum WeatherType {
 	case cloudy
 	case clearCloudy
 	case cold
@@ -92,7 +92,9 @@ enum WeatherType: CaseIterable {
 		}
 	}
 
-	var image: UIImage? {
-		WeatherAsset(weatherType: self).image
+	var imageSUI: Image {
+		WeatherAsset(weatherType: self).imageSUI
 	}
 }
+
+extension WeatherType: Equatable { }

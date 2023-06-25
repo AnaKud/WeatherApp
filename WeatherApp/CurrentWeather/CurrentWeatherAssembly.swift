@@ -2,18 +2,12 @@
 // Created by Anastasiya Kudasheva
 
 enum CurrentWeatherAssembly {
-	static func buid() -> CurrentWeatherViewController {
-//		let state = UIApplication().
-
+	static func build() -> CurrentWeatherView {
 		let locationManager = LocationManager()
-		let networkLoader = NetworkDataLoader<WeatherData>()
-		let alertPresenter = AlertPresenter()
-		let presenter = CurrentWeatherPresenter(
-			locationManager: locationManager,
-			networkLoader: networkLoader,
-			alertPresenter: alertPresenter
-		)
-		let vc = CurrentWeatherViewController(presenter: presenter)
-		return vc
+		let networkLoader = NetworkDataLoader()
+		let viewModel = CurrentWeatherViewModel(locationManager: locationManager,
+												networkLoader: networkLoader)
+		let view = CurrentWeatherView(viewModel: viewModel)
+		return view
 	}
 }

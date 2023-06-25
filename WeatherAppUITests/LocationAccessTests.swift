@@ -27,9 +27,8 @@ class LocationAccessTests: XCTestCase {
 			let button = alert.buttons["Allow While Using App"]
 			XCTAssertTrue(button.exists)
 			button.tap()
-			self.checkAlertText("Can't detect your current location. Try typing city",
-								withId: "AlertPresenter")
-			self.dismissAlert(withId: "AlertPresenter")
+			self.checkAlertText("Can't detect your current location. Try typing city")
+			self.dismissAlert()
 			self.checkTFExist(withId: "searchTextField")
 			return true
 		}
@@ -44,10 +43,9 @@ class LocationAccessTests: XCTestCase {
 			XCTAssertTrue(button.exists)
 			button.tap()
 
-			self.checkAlertText("No access to current location. Check Settings. But now you can try typing city",
-								withId: "AlertPresenter")
+			self.checkAlertText("No access to current location. Check Settings. But now you can try typing city")
 
-			self.dismissAlert(withId: "AlertPresenter")
+			self.dismissAlert()
 			self.checkTFExist(withId: "searchTextField")
 
 			return true

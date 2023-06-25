@@ -1,7 +1,7 @@
 // Assets.swift
 // Created by Anastasiya Kudasheva
 
-import UIKit
+import SwiftUI
 
 enum WeatherAsset: String, CaseIterable {
 	case cloudy
@@ -46,8 +46,8 @@ enum WeatherAsset: String, CaseIterable {
 		}
 	}
 
-	var image: UIImage? {
-		return UIImage(named: self.imageName)
+	var imageSUI: Image {
+		return Image(self.imageName)
 	}
 }
 

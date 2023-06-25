@@ -2,6 +2,7 @@
 // Created by Anastasiya Kudasheva
 
 import UIKit
+import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	var window: UIWindow?
@@ -9,7 +10,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 		guard let scene = (scene as? UIWindowScene) else { return }
 		self.window = UIWindow(windowScene: scene)
-		self.window?.rootViewController = CurrentWeatherAssembly.buid()
+		let vc = UIHostingController(
+			rootView: CurrentWeatherAssembly.build()
+		)
+		self.window?.rootViewController = vc
 		self.window?.makeKeyAndVisible()
 	}
 }

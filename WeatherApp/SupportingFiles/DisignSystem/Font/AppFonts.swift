@@ -1,7 +1,7 @@
 // AppFonts.swift
 // Created by Anastasiya Kudasheva
 
-import UIKit
+import SwiftUI
 
 enum AppFonts {
 	case regular20
@@ -10,18 +10,18 @@ enum AppFonts {
 	case bold
 	case bold24
 
-	var font: UIFont? {
+	var font: Font {
 		switch self {
 		case .regular20:
-			return UIFont(name: "Overpass-Regular", size: 20)
+			return Font.custom("Overpass-Regular", size: 20)
 		case .regular18:
-			return UIFont(name: "Overpass-Regular", size: 18)
+			return Font.custom("Overpass-Regular", size: 18)
 		case .bold:
-			return UIFont(name: "Overpass-Bold", size: 20)
+			return Font.custom("Overpass-Bold", size: 20)
 		case .regular100:
-			return UIFont(name: "Overpass-Regular", size: 100)
+			return Font.custom("Overpass-Regular", size: 100)
 		case .bold24:
-			return UIFont(name: "Overpass-Bold", size: 24)
+			return Font.custom("Overpass-Bold", size: 24)
 		}
 	}
 }

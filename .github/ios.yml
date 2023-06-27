@@ -1,0 +1,30 @@
+name: iOS starter workflow
+
+on:
+  push:
+    branches: [ "main", "MVP", "mvc" ]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build and Run Tests
+        env:
+          scheme: ${{ 'WeatherApp' }}
+          platform: ${{ 'iOS Simulator' }}
+        run: |
+          device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
+          destination="platform=$platform,name=$device"
+          xcodebuild -scheme "$scheme" -project WeatherApp.xcodeproj -destination "$destination"
+          xcodebuild test -scheme "$scheme" -project WeatherApp.xcodeproj -destination "$destination"
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: Test Results
+          path: WeatherAppUITests/TestResults.xcresult
+      - name: Upload code coverage report
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          path: WeatherApp/build/debug/codecov/reports/codecov.json
